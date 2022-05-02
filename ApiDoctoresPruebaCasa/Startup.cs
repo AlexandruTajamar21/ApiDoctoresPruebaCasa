@@ -29,6 +29,7 @@ namespace ApiDoctoresPruebaCasa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("AllowOrigin", x => x.AllowAnyOrigin()));
             string url = this.Configuration.GetConnectionString("CadenaAWS");
             services.AddTransient<RepositoryDoctores>();
             services.AddDbContext<DoctoresContext>(
@@ -47,7 +48,7 @@ namespace ApiDoctoresPruebaCasa
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(options => options.AllowAnyOrigin());
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiDoctoresPruebaCasa v1");
